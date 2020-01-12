@@ -8,7 +8,7 @@ public class LoginRespVO {
     @ApiModelProperty("正常业务token")
     private String accessToken;
     @ApiModelProperty("刷新token")
-    private String refeshToken;
+    private String refreshToken;
     @ApiModelProperty("用户id")
     private String id;
     @ApiModelProperty("手机号")

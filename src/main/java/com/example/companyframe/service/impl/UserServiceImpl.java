@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
             refreshToken = JWTTokenUtil.getRefreshAppToken(userInfoByName.getId(), claims);
         }
         loginRespVO.setAccessToken(accessToken);
-        loginRespVO.setRefeshToken(refreshToken);
+        loginRespVO.setRefreshToken(refreshToken);
         return loginRespVO;
     }
 
