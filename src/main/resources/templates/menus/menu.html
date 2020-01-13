@@ -30,7 +30,8 @@
             <div class="layui-form-item">
                 <div class="layui-form-label ">所属菜单</div>
                 <div class="layui-input-block">
-                    <input type="pidName" name="pidName" placeholder="请选择所属菜单" autocomplete="off" class="layui-input" readonly="readonly" style="background:#eeeeee!important">
+                    <input type="pidName" name="pidName" placeholder="请选择所属菜单" autocomplete="off" class="layui-input"
+                           readonly="readonly" style="background:#eeeeee!important">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -43,25 +44,29 @@
             <div class="layui-form-item menu-perms" hidden>
                 <div class="layui-form-label">授权标识</div>
                 <div class="layui-input-block">
-                    <input type="perms" name="perms" placeholder="请输入授权标识,如果 sys:user:list" autocomplete="off" class="layui-input">
+                    <input type="perms" name="perms" placeholder="请输入授权标识,如果 sys:user:list" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item menu-method" hidden>
                 <div class="layui-form-label">请求方式</div>
                 <div class="layui-input-block">
-                    <input type="method" name="method" placeholder="请输入请求方式，如 GET、POST" autocomplete="off" class="layui-input">
+                    <input type="method" name="method" placeholder="请输入请求方式，如 GET、POST" autocomplete="off"
+                           class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item menu-btn" hidden>
                 <div class="layui-form-label">按钮标识</div>
                 <div class="layui-input-block">
-                    <input type="code" name="code" placeholder="请输入前后端分离按钮控制标识,如果 btn-permission-list" autocomplete="off" class="layui-input">
+                    <input type="code" name="code" placeholder="请输入前后端分离按钮控制标识,如果 btn-permission-list"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-form-label">排序码</div>
                 <div class="layui-input-block">
-                    <input type="text" name="orderNum" lay-verify="number" onkeyup="value=zhzs(this.value)" placeholder="请输入排序码" autocomplete="off" class="layui-input" >
+                    <input type="text" name="orderNum" lay-verify="number" onkeyup="value=zhzs(this.value)"
+                           placeholder="请输入排序码" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -73,7 +78,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
-                    <button  class="layui-btn layui-btn-primary" id="btn_cancel">返回</button>
+                    <button class="layui-btn layui-btn-primary" id="btn_cancel">返回</button>
                 </div>
             </div>
         </form>
@@ -82,7 +87,7 @@
 <div class="menu-table">
     <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
 </div>
-<div id="menuTree" style="display: none"></div>
+<div id="menuTree"></div>
 </body>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-group">
@@ -90,10 +95,12 @@
             <i class="layui-icon">&#xe608;</i> 添加
         </button>
     </div>
+
 </script>
 <script type="text/html" id="tool">
     <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="sys:permission:update">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="sys:permission:delete">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"
+       shiro:hasPermission="sys:permission:delete">删除</a>
 </script>
 <script src="/layui/layui.js"></script>
 <script src="/js/core.util.js"></script>
@@ -102,27 +109,27 @@
         base: '/'
     }).extend({
         treetable: 'treetable-lay/treetable'
-    }).use(['treetable','table','jquery','form','tree'],function () {
-        var treetable=layui.treetable;
-        var table=layui.table;
-        var $=layui.jquery;
-        var form=layui.form;
-        var tree=layui.tree;
+    }).use(['treetable', 'table', 'jquery', 'form', 'tree'], function () {
+        var treetable = layui.treetable;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var tree = layui.tree;
         /*用来记录菜单权限树选中*/
-        var selectNode=null;
-        var reloadTreeTable=function(){
-            CoreUtil.sendAjax("/api/permissions",null,function (res) {
+        var selectNode = null;
+        var reloadTreeTable = function () {
+            CoreUtil.sendAjax("/api/permissions", null, function (res) {
                 renderTable(res.data);
-            },"GET",false,function (res) {
+            }, "GET", false, function (res) {
                 //无权限访问菜单权限列表提示
                 layer.msg("抱歉！您暂无获取菜单权限列表的权限");
-                var noAuthorityData=[];
+                var noAuthorityData = [];
                 renderTable(noAuthorityData);
             });
         }
         reloadTreeTable();
         /*初始化菜单权限列表数据*/
-        var renderTable = function(data) {
+        var renderTable = function (data) {
             treetable.render({
                 // 渲染表格
                 data: data,
@@ -142,71 +149,73 @@
                         {field: 'url', title: 'url'},
                         {field: 'method', title: '请求方式'},
                         {
-                            field: 'type', title: '类型', templet: function(item){
-                                if(item.type === 1){
+                            field: 'type', title: '类型', templet: function (item) {
+                                if (item.type === 1) {
                                     return '  <a class="layui-btn layui-btn-xs" >目录</a>';
                                 }
-                                if(item.type === 2){
+                                if (item.type === 2) {
                                     return '<a class="layui-btn layui-btn-xs layui-btn-normal" >菜单</a>';
                                 }
-                                if(item.type === 3){
+                                if (item.type === 3) {
                                     return '<a class="layui-btn layui-btn-xs layui-btn-warm " >按钮</a>';
                                 }
                             }
                         },
-                        {field: 'pidName', title: '父级名称',templet:function (item) {
-                                if(item.pidName ===null || item.pidName=== undefined){
+                        {
+                            field: 'pidName', title: '父级名称', templet: function (item) {
+                                if (item.pidName === null || item.pidName === undefined) {
                                     return "默认顶级菜单";
-                                }else {
+                                } else {
                                     return item.pidName;
                                 }
-                            }},
+                            }
+                        },
                         {field: 'orderNum', title: '排序'},
                         {field: 'perms', title: '资源标识'},
                         {field: 'code', title: '前后端分离按钮控制标识'},
                         {
-                            field: 'createTime', title: '创建时间', minWidth: 120 , templet: function (item) {
+                            field: 'createTime', title: '创建时间', minWidth: 120, templet: function (item) {
                                 return CoreUtil.formattime(item.createTime);
                             }
                         },
                         {
-                            field: 'status', title: '状态',templet: function (item) {
-                                if(item.status === 1){
-                                    return  '  <input type="checkbox" lay-skin="switch" lay-text="启用|禁用" checked disabled>';
+                            field: 'status', title: '状态', templet: function (item) {
+                                if (item.status === 1) {
+                                    return '  <input type="checkbox" lay-skin="switch" lay-text="启用|禁用" checked disabled>';
                                 }
-                                if(item.status === 0){
-                                    return  '  <input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled>';
+                                if (item.status === 0) {
+                                    return '  <input type="checkbox" lay-skin="switch" lay-text="启用|禁用" disabled>';
                                 }
                             }
                         },
-                        {title:'操作',width:180,toolbar:'#tool'}
+                        {title: '操作', width: 180, toolbar: '#tool'}
                     ]
                 ]
             });
         };
 
-
+        
         //初始化菜单权限树
-        var initTree=function () {
-            CoreUtil.sendAjax("/api/permission/tree",null,function (res) {
+        var initTree = function () {
+            CoreUtil.sendAjax("/api/permission/tree", null, function (res) {
                 loadPermissionTree(res.data);
-            },"GET",false,function (res) {
+            }, "GET", false, function (res) {
                 //无权限获取菜单权限树提示
                 layer.msg("抱歉！您暂无获取菜单权限树的权限");
-                var noAuthorityData=[];
+                var noAuthorityData = [];
                 loadPermissionTree(noAuthorityData);
             });
         };
         //加载部门树数据
-        var loadPermissionTree=function (data) {
+        var loadPermissionTree = function (data) {
             //仅节点左侧图标控制收缩
             tree.render({
                 elem: '#menuTree'
-                ,data: data
-                ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
-                ,click: function(obj){
+                , data: data
+                , onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                , click: function (obj) {
                     /*记录选中的目录菜单*/
-                    selectNode=obj;
+                    selectNode = obj;
                     layer.msg(JSON.stringify(obj.data.title));
                 }
             });
@@ -214,11 +223,11 @@
 
 
         //新增菜单权限事件
-        table.on('toolbar(menuTable)',function (obj) {
+        table.on('toolbar(menuTable)', function (obj) {
 
             switch (obj.event) {
                 case 'addMenu':
-                    selectNode=null;
+                    selectNode = null;
                     //隐藏表格
                     $(".menu-table").hide();
                     //显示编辑窗口
@@ -250,19 +259,19 @@
         });
 
         //初始化 radio 状态
-        var initRadio=function(value){
+        var initRadio = function (value) {
             var radio = document.getElementsByName("type");
             var radioLength = radio.length;
             for (var i = 0; i < radioLength; i++) {
-                if(value == radio[i].value){
+                if (value == radio[i].value) {
                     $(radio[i]).next().click();
                 }
 
             }
         };
         //radio 事件
-        form.on('radio(radio-type)', function(data){
-            if(data.value == '1'){
+        form.on('radio(radio-type)', function (data) {
+            if (data.value == '1') {
                 $(".menu-method").hide();
                 $(".menu-btn").hide();
                 $(".menu-perms").hide();
@@ -286,7 +295,7 @@
                 content: $("#menuTree"),
                 btn: ['确定', '取消'],
                 yes: function (index) {
-                    if(selectNode.data!=null){
+                    if (selectNode.data != null) {
                         //选中回显
                         $(".operation_menu input[name=pid]").val(selectNode.data.id);
                         $(".operation_menu input[name=pidName]").val(selectNode.data.title);
@@ -298,7 +307,7 @@
         });
 
         //编辑或新增的界面取消事件
-        $("#btn_cancel").click(function() {
+        $("#btn_cancel").click(function () {
             //显示表格
             $(".menu-table").show();
             //隐藏编辑窗口
@@ -307,32 +316,32 @@
             return false;
         });
         //监听指定开关
-        form.on('switch(switch)', function(){
+        form.on('switch(switch)', function () {
             $(".operation_menu input[name=status]").attr('type', 'hidden').val(this.checked ? 1 : 0);
 
         });
         //监听提交
-        form.on('submit(submit)', function(data){
+        form.on('submit(submit)', function (data) {
             //新增
-            if(data.field.id===undefined || data.field.id===null || data.field.id===""){
-                CoreUtil.sendAjax("/api/permission",JSON.stringify(data.field),function (res) {
+            if (data.field.id === undefined || data.field.id === null || data.field.id === "") {
+                CoreUtil.sendAjax("/api/permission", JSON.stringify(data.field), function (res) {
                     reloadTreeTable();
                     //隐藏表格
                     $(".menu-table").show();
                     //显示编辑窗口
                     $(".operation_menu").hide();
-                },"POST",false,function (res) {
+                }, "POST", false, function (res) {
                     //无新增菜单权限数据提示
                     layer.msg("抱歉！您暂无新增菜单权限的权限");
                 });
-            }else {
-                CoreUtil.sendAjax("/api/permission",JSON.stringify(data.field),function (res) {
+            } else {
+                CoreUtil.sendAjax("/api/permission", JSON.stringify(data.field), function (res) {
                     reloadTreeTable();
                     //显示表格
                     $(".menu-table").show();
                     //隐藏编辑窗口
                     $(".operation_menu").hide();
-                },"PUT",false,function (res) {
+                }, "PUT", false, function (res) {
                     //无更新菜单权限数据提示
                     layer.msg("抱歉！您暂无编辑菜单权限的权限");
                 });
@@ -341,11 +350,11 @@
         });
 
         //操作项事件
-        table.on('tool(menuTable)',function (obj) {
+        table.on('tool(menuTable)', function (obj) {
             var data = obj.data;
             switch (obj.event) {
                 case 'edit':
-                    selectNode=null;
+                    selectNode = null;
                     //隐藏表格
                     $(".menu-table").hide();
                     //显示编辑窗口
@@ -361,14 +370,14 @@
                     $(".operation_menu input[name=orderNum]").val(data.orderNum);
                     $(".operation_menu input[name=method]").val(data.method);
                     $(".operation_menu input[name=code]").val(data.code);
-                    if(data.status ==1){
+                    if (data.status == 1) {
                         $(".operation_menu input[name=status]").attr('checked', 'checked');
                         $(".operation_menu input[name=status]").attr('type', 'hidden').val(1);
                         var x = document.getElementsByClassName("layui-unselect layui-form-switch");
                         x[0].setAttribute("class", "layui-unselect layui-form-switch layui-form-onswitch");
                         var d = document.getElementsByTagName('em')[0];
                         d.firstChild.nodeValue = '启用';
-                    }else {
+                    } else {
                         $(".operation_menu input[name=status]").attr('type', 'hidden').removeAttr("checked").val(0);
                         var x = document.getElementsByClassName("layui-unselect layui-form-switch");
                         x[0].setAttribute("class", "layui-unselect layui-form-switch");
@@ -380,21 +389,21 @@
                     break;
                 case 'del':
                     // layer.msg("您点击了"+data.name+"删除按钮");
-                    deletedMenu(data.id,data.name)
+                    deletedMenu(data.id, data.name)
                     break;
             }
         });
 
         //删除操作
-        var deletedMenu=function(menuId,menuName){
+        var deletedMenu = function (menuId, menuName) {
             layer.open({
-                content: '确定要删除'+menuName+"?",
-                yes: function(index, layero){
+                content: '确定要删除' + menuName + "?",
+                yes: function (index, layero) {
                     layer.close(index); //如果设定了yes回调，需进行手工关闭
-                    CoreUtil.sendAjax("/api/permission/"+menuId,null,function (res) {
+                    CoreUtil.sendAjax("/api/permission/" + menuId, null, function (res) {
                         layer.msg(res.msg);
                         reloadTreeTable();
-                    },"DELETE",false,function (res) {
+                    }, "DELETE", false, function (res) {
                         //无权限删除菜单权限提示
                         layer.msg("抱歉！您暂无删除菜单权限的权限");
                     });

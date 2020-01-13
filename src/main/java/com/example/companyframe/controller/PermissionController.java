@@ -3,6 +3,7 @@ package com.example.companyframe.controller;
 import com.example.companyframe.entity.SysPermission;
 import com.example.companyframe.service.PermissionService;
 import com.example.companyframe.utils.DataResult;
+import com.example.companyframe.vo.respVo.PermissionRespNodeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class PermissionController {
     public DataResult getselectAll() {
         List<SysPermission> sysPermissions = permissionService.selectAll();
         return DataResult.success(sysPermissions);
+    }
+
+    @GetMapping("/permission/tree")
+    @ApiOperation("菜单权限树接口-递归查询")
+    public DataResult getAllPermissionTree() {
+        List<PermissionRespNodeVO> list = permissionService.selectAllMenuByTree();
+        return DataResult.success(list);
     }
 }
